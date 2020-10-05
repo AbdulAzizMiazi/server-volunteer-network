@@ -48,4 +48,4 @@ app.get("/", (req, res) => {
     res.send("Express is setup successfully...!!!")
 })
 
-app.listen(port, ()=>console.log(`Listening to port no. ${port}`));
+app.listen(process.env.PORT || port);
