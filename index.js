@@ -21,11 +21,23 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 client.connect(err => {
     const volunteerCollection = client.db(`${process.env.DB_NAME}`).collection(`${process.env.DB_COLLECTION}`);
+    const eventCollection = client.db(`${process.env.DB_NAME}`).collection(`${process.env.EVENTS_DB_COLLECTION}`);
 
     app.post("/newRegistration", (req, res) => {
         const newRegistration = req.body;
         volunteerCollection.insertOne(newRegistration)
         .then(result => result.insertedCount > 0 && res.send({success: true}))
+    })
+
+    app.post("/addEvent", (req, res) => {
+        const newEvent = req.body;
+        eventCollection.insertOne(newEvent)
+        .then(result => result.insertedCount > 0 && res.send({success: true}))
+    })
+
+    app.get("/allEvents", (req, res)=>{
+        eventCollection.find({})
+        .toArray((error, documents) => res.send(documents))
     })
 
     app.get("/event", (req, res) => {
@@ -34,8 +46,22 @@ client.connect(err => {
         .toArray((error, documents) => res.send(documents))
     })
 
+    app.get("/allRegistrations", (req, res) => {
+        volunteerCollection.find({})
+        .toArray((error, documents) =>{
+            res.send(documents);
+        })
+    })
+
+    app.get('/getImage', (req, res) => {
+        eventCollection.find({title: req.query.event})
+        .toArray((error, documents) => {
+            console.log(documents[0]);
+            res.send(documents[0]);
+        })
+    })
+
     app.delete('/cancel/:id', (req, res) => {
-        console.log();
         volunteerCollection.deleteOne({_id: ObjectId(req.params.id)})
         .then(result => result.deletedCount > 0 && res.send({deleted: true}))
     })
@@ -48,4 +74,5 @@ app.get("/", (req, res) => {
     res.send("Express is setup successfully...!!!")
 })
 
-app.listen(process.env.PORT || port);
+app.listen(port, ()=>console.log(`Listening to port number ${port}`))
+// app.listen(process.env.PORT || port);
