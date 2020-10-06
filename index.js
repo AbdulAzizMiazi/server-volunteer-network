@@ -74,5 +74,4 @@ app.get("/", (req, res) => {
     res.send("Express is setup successfully...!!!")
 })
 
-app.listen(port, ()=>console.log(`Listening to port number ${port}`))
-// app.listen(process.env.PORT || port);
+app.listen(process.env.PORT || port);
