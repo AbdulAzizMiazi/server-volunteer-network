@@ -2,6 +2,8 @@
 
 [Visit the Website](https://volunteer-network-aa.web.app/) || [Visit Client Side Code](https://github.com/AbdulAzizMiazi/client-volunteer-network)
 
+[Visit My Resume](https://drive.google.com/file/d/1H_IqfLPTNuFqTma2nhl8dRPuxuq6sw5b/view?usp=sharing)
+
 ## Features:
 
 * Users can submit data to the Database(MongoDB) while completing registration.
